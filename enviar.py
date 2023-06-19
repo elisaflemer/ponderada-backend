@@ -11,7 +11,6 @@ from cv_bridge import CvBridge  # Package to convert between ROS and OpenCV Imag
 import cv2  # OpenCV library
 import httpx
 import requests
-from ultralytics import YOLO
 
 
 class ImageSubscriber(Node):
@@ -44,15 +43,15 @@ class ImageSubscriber(Node):
         current_frame = self.br.imgmsg_to_cv2(data)
  
 
-        url = "http://127.0.0.1:3000/upload"
-        files = [("content", ("lala.png", current_frame, "image/png"))]
+        url = "http://127.0.0.1:8000/upload"
+        files = [("content", ("frame.png", current_frame, "image/png"))]
         response = requests.request("POST", url, files=files)
         # Check the response status code
         if response.status_code == 200:
             print("Frame sent successfully!")
         else:
             print("Failed to send frame. Status code:", response.status_code)
-        cv2.imshow("Camera", annotated_frame)
+        cv2.imshow("Camera", current_frame)
         if cv2.waitKey(25) & 0xFF == ord("q"):
             cv2.destroyAllWindows()
             return

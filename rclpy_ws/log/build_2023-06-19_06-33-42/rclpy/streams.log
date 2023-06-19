@@ -1,0 +1,33 @@
+[0.012s] Invoking command in '/home/elisaflemer/ponderada-backend/rclpy_ws/build/rclpy': /usr/bin/cmake /home/elisaflemer/ponderada-backend/rclpy_ws/src/rclpy/rclpy -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/elisaflemer/ponderada-backend/rclpy_ws/install/rclpy
+[0.411s] -- The C compiler identification is GNU 11.3.0
+[2.142s] -- The CXX compiler identification is GNU 11.3.0
+[3.677s] -- Detecting C compiler ABI info
+[4.068s] -- Detecting C compiler ABI info - done
+[4.075s] -- Check for working C compiler: /usr/bin/cc - skipped
+[4.075s] -- Detecting C compile features
+[4.075s] -- Detecting C compile features - done
+[4.079s] -- Detecting CXX compiler ABI info
+[4.443s] -- Detecting CXX compiler ABI info - done
+[4.449s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[4.449s] -- Detecting CXX compile features
+[4.450s] -- Detecting CXX compile features - done
+[8.172s] [31mCMake Error at CMakeLists.txt:27 (find_package):
+[8.172s]   By not providing "Findament_cmake.cmake" in CMAKE_MODULE_PATH this project
+[8.172s]   has asked CMake to find a package configuration file provided by
+[8.172s]   "ament_cmake", but CMake did not find one.
+[8.172s] 
+[8.172s]   Could not find a package configuration file provided by "ament_cmake" with
+[8.172s]   any of the following names:
+[8.172s] 
+[8.172s]     ament_cmakeConfig.cmake
+[8.172s]     ament_cmake-config.cmake
+[8.172s] 
+[8.172s]   Add the installation prefix of "ament_cmake" to CMAKE_PREFIX_PATH or set
+[8.172s]   "ament_cmake_DIR" to a directory containing one of the above files.  If
+[8.173s]   "ament_cmake" provides a separate development package or SDK, be sure it
+[8.173s]   has been installed.
+[8.173s] 
+[8.173s] [0m
+[8.173s] -- Configuring incomplete, errors occurred!
+[8.173s] See also "/home/elisaflemer/ponderada-backend/rclpy_ws/build/rclpy/CMakeFiles/CMakeOutput.log".
+[8.176s] Invoked command in '/home/elisaflemer/ponderada-backend/rclpy_ws/build/rclpy' returned '1': /usr/bin/cmake /home/elisaflemer/ponderada-backend/rclpy_ws/src/rclpy/rclpy -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/elisaflemer/ponderada-backend/rclpy_ws/install/rclpy
