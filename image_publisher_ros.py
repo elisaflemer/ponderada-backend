@@ -1,77 +1,65 @@
 
-import rclpy # Python Client Library for ROS 2
-from rclpy.node import Node # Handles the creation of nodes
-from sensor_msgs.msg import Image # Image is the message type
-from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
-import cv2 # OpenCV library
- 
+# Importa bibliotecas necessárias
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+import cv2
+
+# Classe de publicador de imagem, a partir do vídeo
+
 class ImagePublisher(Node):
-  """
-  Create an ImagePublisher class, which is a subclass of the Node class.
-  """
-  def __init__(self):
-    """
-    Class constructor to set up the node
-    """
-    # Initiate the Node class's constructor and give it a name
-    super().__init__('image_publisher')
-      
-    # Create the publisher. This publisher will publish an Image
-    # to the video_frames topic. The queue size is 10 messages.
-    self.publisher_ = self.create_publisher(Image, 'video_frames', 10)
-      
-    # We will publish a message every 0.1 seconds
-    timer_period = 0.1  # seconds
-      
-    # Create the timer
-    self.timer = self.create_timer(timer_period, self.timer_callback)
-         
-    self.cap = cv2.VideoCapture('./assets/siu.mp4')
-         
-    # Used to convert between ROS and OpenCV images
-    self.br = CvBridge()
-   
-  def timer_callback(self):
-    """
-    Callback function.
-    This function gets called every 0.1 seconds.
-    """
-    # Capture frame-by-frame
-    # This method returns True/False as well
-    # as the video frame.
-    ret, frame = self.cap.read()
-    
-    if not ret:
-      self.get_logger().info("Video seems to be over. Restarting...")
-      self.cap = cv2.VideoCapture('./assets/siu.mp4')
-      return
-          
-    # Publish the image.
-    # The 'cv2_to_imgmsg' method converts an OpenCV
-    # image to a ROS 2 image message
-    self.publisher_.publish(self.br.cv2_to_imgmsg(frame))
- 
-    # Display the message on the console
-    self.get_logger().info('Publishing video frame')
-  
+
+    def __init__(self):
+        super().__init__('image_publisher')
+
+        # Cria publicador no tópico "video_frames"
+        self.publisher_ = self.create_publisher(Image, 'video_frames', 10)
+
+        # Frequência das publicações
+        timer_period = 0.1
+
+        # Cria o timer
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+
+        # Acessa o vídeo
+        self.cap = cv2.VideoCapture('./assets/siu.mp4')
+
+        # Cria uma ponte entre o ROS2 e o OpenCV
+        self.br = CvBridge()
+
+    # Callback para processar cada frame do vídeo (a cada ciclo do timer)
+    def timer_callback(self):
+
+        # Lê frame
+        ret, frame = self.cap.read()
+
+        # Reinicia vídeo se ele tiver acabado
+        if not ret:
+            self.get_logger().info("Video seems to be over. Restarting...")
+            self.cap = cv2.VideoCapture('./assets/siu.mp4')
+            return
+
+        # Publica imagem no tópico
+        self.publisher_.publish(self.br.cv2_to_imgmsg(frame))
+
+        self.get_logger().info('Publishing video frame')
+
+# Inicializa nó
+
+
 def main(args=None):
-  
-  # Initialize the rclpy library
-  rclpy.init(args=args)
-  
-  # Create the node
-  image_publisher = ImagePublisher()
-  
-  # Spin the node so the callback function is called.
-  rclpy.spin(image_publisher)
-  
-  # Destroy the node explicitly
-  # (optional - otherwise it will be done automatically
-  # when the garbage collector destroys the node object)
-  image_publisher.destroy_node()
-  
-  # Shutdown the ROS client library for Python
-  rclpy.shutdown()
-  
+
+    rclpy.init(args=args)
+
+    image_publisher = ImagePublisher()
+
+    rclpy.spin(image_publisher)
+
+    image_publisher.destroy_node()
+
+    rclpy.shutdown()
+
+
 if __name__ == '__main__':
-  main()
+    main()
